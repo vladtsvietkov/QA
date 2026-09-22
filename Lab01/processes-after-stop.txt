@@ -1,0 +1,2 @@
+    PID USER     STAT COMMAND
+   8087 tsvietk+ Sl   vlc --no-media-library

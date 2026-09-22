@@ -1,0 +1,1 @@
+rm: cannot remove 'Documents/scripts': Is a directory

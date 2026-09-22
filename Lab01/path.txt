@@ -1,0 +1,1 @@
+/home/tsvietkov-io32/.local/bin:/home/tsvietkov-io32/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/tsvietkov-io32/opt/xPacks/qemu-arm/xpack-qemu-arm-7.2.0-1/bin:/home/tsvietkov-io32/opt/xPacks/qemu-arm/xpack-qemu-arm-7.2.0-1/bin

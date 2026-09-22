@@ -1,0 +1,5 @@
+   8086    8062 root     sudo ping -4 google.com
+   8087    8062 tsvietk+ vlc --no-media-library
+   8178    8086 root     sudo ping -4 google.com
+   8179    8178 root     ping -4 google.com
+   8180    8062 tsvietk+ ping -4 google.com

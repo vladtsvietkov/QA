@@ -1,0 +1,2 @@
+Get:1 http://ua.archive.ubuntu.com/ubuntu noble-updates/main amd64 vim amd64 2:9.1.0016-1ubuntu7.20 [1,884 kB]
+Fetched 1,884 kB in 0s (5,153 kB/s)

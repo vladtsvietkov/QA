@@ -1,0 +1,6 @@
+echo 1 > /proc/sys/net/ipv4/ip_forward
+cat /proc/sys/net/ipv4/ip_forward > /home/tsvietkov-io32/c1/forwarding-root.txt
+ifconfig > /home/tsvietkov-io32/c1/ifconfig.txt
+ifconfig -a > /home/tsvietkov-io32/c1/ifconfig-all.txt
+history -w /home/tsvietkov-io32/c1/root-history.txt
+exit

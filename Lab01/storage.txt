@@ -1,0 +1,32 @@
+NAME   TRAN     SIZE MOUNTPOINTS
+loop0             4K /snap/bare/5
+loop1          55.5M /snap/core18/2999
+loop2            74M /snap/core22/2411
+loop3            74M /snap/core22/2955
+loop4          66.8M /snap/core24/1643
+loop5          66.8M /snap/core24/2124
+loop6         248.6M /snap/firefox/8417
+loop7         261.4M /snap/firefox/8969
+loop8          12.7M /snap/firmware-updater/258
+loop9          16.5M /snap/firmware-updater/226
+loop10         55.5M /snap/core18/3084
+loop11        531.4M /snap/gnome-42-2204/247
+loop12        531.5M /snap/gnome-42-2204/263
+loop13        615.3M /snap/gnome-46-2404/168
+loop14        606.1M /snap/gnome-46-2404/153
+loop15         91.7M /snap/gtk-common-themes/1535
+loop16          1.6G /snap/kf6-core24/64
+loop17          395M /snap/mesa-2404/1165
+loop18          402M /snap/mesa-2404/1839
+loop19         11.8M /snap/snap-store/1427
+loop20         50.3M /snap/snapd/27738
+loop21         44.7M /snap/snapd/28254
+loop22          580K /snap/snapd-desktop-integration/361
+loop23          828K /snap/snapd-desktop-integration/391
+loop24        321.1M /snap/vlc/3777
+loop25        264.8M /snap/vlc/4472
+loop26         11.8M /snap/snap-store/1419
+sda    sata    60.4G 
+├─sda1            1M 
+└─sda2         60.4G /
+sr0    ata     1024M 

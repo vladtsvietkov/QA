@@ -1,0 +1,29 @@
+cd ~/c1
+fg 2>&1 | tee fg-second-shell.txt
+ps aux | grep "[p]ing" | tee processes-initial.txt
+history -w history2-initial.txt
+date | tee -a ping-user.log
+jobs -l | tee jobs-user.txt
+fg
+bg
+sudo ping -4 google.com > ping-root.log 2>&1 &
+vlc --no-media-library > vlc.log 2>&1 &
+fg %1
+bg
+ping -4 google.com > ping-user-good.log 2>&1 &
+date | tee -a ping-user-good.log
+ps -eo pid,ppid,user,args | grep -E "[p]ing -4 google.com|[v]lc --no-media" | tee owned-processes.txt
+fg %3
+bg
+ps aux | grep "[p]ing -4" | tee processes-before-stop.txt
+kill -TERM 8180
+ps aux | grep "[p]ing -4" | tee processes-after-term.txt
+kill -KILL 8179 2>&1 | tee kill-root-denied.txt
+sudo kill -KILL 8179
+sudo kill -TERM 8087
+ps -p 8179,8180,8087 -o pid,user,stat,args | tee processes-after-stop.txt
+history -w history2.txt
+ps -p 8179,8180,8087 -o pid,user,stat,args | tee processes-final.txt
+date -Is
+history -w history2.txt
+stat -c "%n %s bytes" history2.txt

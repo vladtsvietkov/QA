@@ -1,0 +1,21 @@
+/home/tsvietkov-io32/study/People/Нечипорук Анастасія Романівна/2026-Fall/QA/Lab01/Work/results/find-dhcp-[01;31m[Ketc[m[K.txt
+/home/tsvietkov-io32/study/People/Нечипорук Анастасія Романівна/2026-Fall/QA/Lab01/Work/results/find-dhcp-[01;31m[Ketc[m[K-exact.txt
+/[01;31m[Ketc[m[K/rc2.d/S01isc-dhcp-server
+/[01;31m[Ketc[m[K/logcheck/ignore.d.server/isc-dhcp-server
+/[01;31m[Ketc[m[K/systemd/system/multi-user.target.wants/isc-dhcp-server6.service
+/[01;31m[Ketc[m[K/systemd/system/multi-user.target.wants/isc-dhcp-server.service
+/[01;31m[Ketc[m[K/apparmor.d/local/usr.sbin.dhcpd
+/[01;31m[Ketc[m[K/apparmor.d/usr.sbin.dhcpd
+/[01;31m[Ketc[m[K/apparmor.d/dhcpd.d
+/[01;31m[Ketc[m[K/rc6.d/K01isc-dhcp-server
+/[01;31m[Ketc[m[K/rc1.d/K01isc-dhcp-server
+/[01;31m[Ketc[m[K/init.d/isc-dhcp-server
+/[01;31m[Ketc[m[K/rc4.d/S01isc-dhcp-server
+/[01;31m[Ketc[m[K/dhcpcd.conf
+/[01;31m[Ketc[m[K/rc3.d/S01isc-dhcp-server
+/[01;31m[Ketc[m[K/rc0.d/K01isc-dhcp-server
+/[01;31m[Ketc[m[K/dhcp
+/[01;31m[Ketc[m[K/dhcp/dhcpd.conf
+/[01;31m[Ketc[m[K/dhcp/dhcpd6.conf
+/[01;31m[Ketc[m[K/rc5.d/S01isc-dhcp-server
+/[01;31m[Ketc[m[K/default/isc-dhcp-server

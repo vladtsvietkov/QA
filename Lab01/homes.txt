@@ -1,0 +1,4 @@
+total 20
+drwxr-xr-x  2 root           root            4096 Nov 27  2024 shared
+drwxr-x--- 14 tempadmin      tempadmin       4096 Oct 28 12:34 tempadmin
+drwxr-x--- 71 tsvietkov-io32 tsvietkov-io32 12288 Oct 28 12:46 tsvietkov-io32

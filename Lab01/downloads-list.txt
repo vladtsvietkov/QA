@@ -1,0 +1,3 @@
+total 16
+drwxr-xr-x  2 tsvietkov-io32 tsvietkov-io32  4096 Apr 22  2026 .
+drwxr-x--- 71 tsvietkov-io32 tsvietkov-io32 12288 Oct 28 12:38 ..

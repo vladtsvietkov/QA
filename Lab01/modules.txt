@@ -1,0 +1,100 @@
+Module                  Size  Used by
+xt_recent              24576  0
+snd_seq_dummy          12288  0
+snd_hrtimer            12288  1
+vboxsf                 45056  0
+vboxguest              57344  5 vboxsf
+vboxvideo              36864  0
+drm_vram_helper        28672  1 vboxvideo
+xfrm_user              65536  1
+xfrm_algo              16384  1 xfrm_user
+xt_set                 20480  0
+ip_set                 61440  1 xt_set
+nft_chain_nat          12288  10
+xt_MASQUERADE          16384  8
+nf_nat                 61440  2 nft_chain_nat,xt_MASQUERADE
+veth                   45056  0
+bridge                421888  0
+vxlan                 151552  0
+stp                    12288  1 bridge
+llc                    16384  2 bridge,stp
+ip6_udp_tunnel         16384  1 vxlan
+udp_tunnel             32768  1 vxlan
+overlay               225280  0
+qrtr                   53248  2
+snd_intel8x0           53248  1
+snd_ac97_codec        200704  1 snd_intel8x0
+ip6t_REJECT            12288  1
+ac97_bus               12288  1 snd_ac97_codec
+nf_reject_ipv6         20480  1 ip6t_REJECT
+intel_rapl_msr         20480  0
+snd_pcm               204800  2 snd_intel8x0,snd_ac97_codec
+intel_rapl_common      57344  1 intel_rapl_msr
+xt_hl                  12288  22
+snd_seq_midi           24576  0
+snd_seq_midi_event     16384  1 snd_seq_midi
+ip6t_rt                16384  3
+snd_rawmidi            57344  1 snd_seq_midi
+intel_uncore_frequency_common    20480  0
+snd_seq               126976  9 snd_seq_midi,snd_seq_midi_event,snd_seq_dummy
+ipt_REJECT             12288  1
+intel_pmc_core        151552  0
+nf_reject_ipv4         12288  1 ipt_REJECT
+pmt_telemetry          16384  1 intel_pmc_core
+xt_LOG                 16384  10
+pmt_discovery          24576  1 pmt_telemetry
+snd_seq_device         16384  3 snd_seq,snd_seq_midi,snd_rawmidi
+nf_log_syslog          20480  10
+pmt_class              20480  2 pmt_telemetry,pmt_discovery
+xt_comment             12288  2
+intel_pmc_ssram_telemetry    16384  1 intel_pmc_core
+snd_timer              53248  3 snd_seq,snd_hrtimer,snd_pcm
+nft_limit              16384  13
+vmwgfx                471040  2
+intel_vsec             24576  2 intel_pmc_ssram_telemetry,pmt_telemetry
+ghash_clmulni_intel    12288  0
+snd                   143360  11 snd_seq,snd_seq_device,snd_intel8x0,snd_timer,snd_ac97_codec,snd_pcm,snd_rawmidi
+xt_limit               12288  0
+drm_ttm_helper         20480  4 vmwgfx,drm_vram_helper,vboxvideo
+xt_addrtype            12288  8
+aesni_intel            98304  0
+soundcore              16384  1 snd
+i2c_piix4              32768  0
+xt_tcpudp              16384  60
+ttm                   135168  3 vmwgfx,drm_vram_helper,drm_ttm_helper
+i2c_smbus              20480  1 i2c_piix4
+xt_conntrack           12288  21
+joydev                 32768  0
+input_leds             12288  0
+serio_raw              20480  0
+mac_hid                12288  0
+nf_conntrack          196608  3 xt_conntrack,nf_nat,xt_MASQUERADE
+nf_defrag_ipv6         24576  1 nf_conntrack
+nf_defrag_ipv4         12288  1 nf_conntrack
+nft_compat             20480  136
+binfmt_misc            24576  1
+nf_tables             389120  775 nft_compat,nft_chain_nat,nft_limit
+sch_fq_codel           28672  3
+msr                    12288  0
+parport_pc             53248  0
+ppdev                  24576  0
+lp                     32768  0
+parport                73728  3 parport_pc,lp,ppdev
+efi_pstore             12288  0
+nfnetlink              20480  5 nft_compat,nf_tables,ip_set
+dmi_sysfs              24576  0
+ip_tables              32768  0
+x_tables               65536  15 xt_conntrack,nft_compat,xt_LOG,xt_tcpudp,xt_addrtype,xt_recent,ip6t_rt,xt_comment,xt_set,ipt_REJECT,ip_tables,xt_limit,xt_hl,xt_MASQUERADE,ip6t_REJECT
+autofs4                57344  2
+hid_generic            12288  0
+usbhid                 77824  0
+hid                   282624  2 usbhid,hid_generic
+vga16fb                36864  0
+psmouse               217088  0
+pata_acpi              12288  0
+video                  77824  0
+vgastate               20480  1 vga16fb
+ahci                   49152  1
+wmi                    36864  1 video
+e1000                 180224  0
+libahci                53248  1 ahci

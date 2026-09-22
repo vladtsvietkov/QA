@@ -1,0 +1,15 @@
+{
+  "id": "DR-C1-X",
+  "title": "Own script is not directly executable at mode644",
+  "precondition": "Valid own script, missing execute bit",
+  "steps": [
+    "chmod644",
+    "./hi.sh"
+  ],
+  "expected": "Operational script prints expected greeting",
+  "actual": "Permission denied",
+  "cause": "File execution permission missing, not a shell syntax defect",
+  "fix": "chmoda+x",
+  "retest": "Mode755; both default/Ukraine expected text and argument count",
+  "status": "Fixed and retested"
+}

@@ -1,0 +1,94 @@
+[
+  {
+    "id": "C1-01",
+    "precondition": "Downloadable Vim package",
+    "steps": "dpkg -i as ordinary user, repeat with sudo",
+    "expected": "Refusal without privilege, successful setup with sudo",
+    "actual": "Observed privilege error then installed Vim9.1.0016-1ubuntu7.20",
+    "evidence": [
+      "dpkg-user.txt",
+      "dpkg-root.txt"
+    ]
+  },
+  {
+    "id": "C1-02",
+    "precondition": "Own edited hi.sh at644",
+    "steps": "Run denied, chmoda+x, run no argument/Ukraine, chmod777",
+    "expected": "755 supports both expected outputs;777 displayed",
+    "actual": "hi world/arguments0; hi Ukraine/arguments1;755/777 confirmed",
+    "evidence": [
+      "hi.sh",
+      "run-denied.txt",
+      "run-default.txt",
+      "run-ukraine.txt",
+      "mode-executable.txt",
+      "mode-all.txt"
+    ]
+  },
+  {
+    "id": "C1-03",
+    "precondition": "Own scripts/Documents tree",
+    "steps": "cp without/with-r, mv, rm without/with-r, tar",
+    "expected": "Directory errors then correct recursive operations",
+    "actual": "Expected errors; scripts.tar lists scripts/hi.sh",
+    "evidence": [
+      "copy-error.txt",
+      "directory-error.txt",
+      "archive-list.txt"
+    ]
+  },
+  {
+    "id": "C1-04",
+    "precondition": "Readable log and filesystem",
+    "steps": "cat/tail/less search, find/grep, system inspection",
+    "expected": "Readable results and explicit denied access",
+    "actual": "Outputs retained; bounded root filesystem search",
+    "evidence": [
+      "log-last20.txt",
+      "find-exact.txt",
+      "find-matches.txt",
+      "find-errors.txt",
+      "dmesg-denied.txt"
+    ]
+  },
+  {
+    "id": "C1-05",
+    "precondition": "Ordinary UID then root shell",
+    "steps": "Write protected proc file using echo and sudo echo, repeat in root",
+    "expected": "Two redirection refusals; root succeeds",
+    "actual": "Two Permission denied; root value1",
+    "evidence": [
+      "forward-write-denied.txt",
+      "sudo-redirection-denied.txt",
+      "forwarding-root.txt",
+      "root-commands.txt"
+    ]
+  },
+  {
+    "id": "C1-06",
+    "precondition": "Own user/root pings and VLC; identified actual PIDs",
+    "steps": "fg%3,Ctrl-Z/bg; TERM8180; KILL8179 without/with sudo; TERM8087 with sudo",
+    "expected": "Normal UID cannot signal root; own tasks stop",
+    "actual": "Denied root kill; final ps has no PID8179/8180/8087",
+    "evidence": [
+      "owned-processes.txt",
+      "kill-root-denied.txt",
+      "processes-final.txt",
+      "history2.txt"
+    ]
+  },
+  {
+    "id": "C1-07",
+    "precondition": "Own 1.txt and2.txt; two interactive shells",
+    "steps": "diff vika/vasya; write histories with date/stat",
+    "expected": "First-line difference and saved files",
+    "actual": "Actual diff and both dated saves captured",
+    "evidence": [
+      "1.txt",
+      "2.txt",
+      "file-difference.txt",
+      "history.txt",
+      "history2.txt"
+    ]
+  }
+]

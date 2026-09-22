@@ -1,0 +1,10 @@
+{
+  "id": "TP-C1",
+  "scope": "84+7 required Linux command exercises, real two shells, own hi.sh and working subtree",
+  "acceptance": "Observed errors explained and positive repeats verified; real histories saved; process ownership respected",
+  "limitations": [
+    "USB physical insertion not required by user; monitor/open commands executed but no device mounted",
+    "find -xdev stays on root filesystem; permissions errors recorded",
+    "set output retained privately; no token/password-like variable names detected"
+  ]
+}

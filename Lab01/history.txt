@@ -1,0 +1,117 @@
+mkdir c1
+cd c1
+uname -a | tee system.txt
+whoami
+hostname
+sudo apt-get update 2>&1 | tee apt-update.txt
+sudo apt-get -s upgrade > apt-upgrade-plan.txt
+tail -n 5 apt-upgrade-plan.txt
+df -h / | tee disk-before.txt
+cat /etc/apt/sources.list.d/ubuntu.sources | tee ubuntu.sources
+sudo apt-get -y upgrade 2>&1 | tee apt-upgrade.txt
+sudo apt-get install -y vim 2>&1 | tee vim-install.txt
+cd ~
+cd Downloads
+pwd
+man ls
+ls -la | tee ../c1/downloads-list.txt
+apt-get download vim 2>&1 | tee ../c1/deb-download.txt
+dpkg -i vim_*.deb 2>&1 | tee ../c1/dpkg-user.txt
+sudo dpkg -i vim_*.deb 2>&1 | tee ../c1/dpkg-root.txt
+cd /
+sudo su
+cd ~/c1
+echo hi all | tee greetings.txt
+echo "$PWD hi all here!" | tee -a greetings.txt
+touch hi.sh
+echo "$PATH" | tee path.txt
+vi hi.sh
+cat hi.sh
+./hi.sh 2>&1 | tee run-denied.txt
+chmod a+x hi.sh
+stat -c "%a %A %n" hi.sh | tee mode-executable.txt
+./hi.sh | tee run-default.txt
+./hi.sh Ukraine | tee run-ukraine.txt
+chmod 777 hi.sh
+stat -c "%a %A %n" hi.sh | tee mode-all.txt
+vi hi.sh
+cat hi.sh
+chmod 644 hi.sh
+./hi.sh 2>&1 | tee run-denied.txt
+chmod a+x hi.sh
+stat -c "%a %A %n" hi.sh | tee mode-executable.txt
+./hi.sh | tee run-default.txt
+./hi.sh Ukraine | tee run-ukraine.txt
+chmod 777 hi.sh
+stat -c "%a %A %n" hi.sh | tee mode-all.txt
+mkdir scripts Documents
+cp hi.sh scripts/
+cp scripts Documents/ 2>&1 | tee copy-error.txt
+cp -r scripts Documents/
+cd scripts
+mv hi.sh ..
+cd ..
+rm Documents/scripts 2>&1 | tee directory-error.txt
+rm -r Documents/scripts
+cd /bin
+ls -l > ~/c1/bin-long.txt
+cd ../..
+cd ~/c1
+cp hi.sh scripts/
+tar -cvf scripts.tar scripts 2>&1 | tee archive-list.txt
+cat hi.sh | tee script-content.txt
+cat /var/log/dpkg.log > package-log.txt
+tail -n 20 package-log.txt | tee log-last20.txt
+less package-log.txt
+cd /
+find / -xdev -name dhcp > ~/c1/find-exact.txt 2> ~/c1/find-errors.txt
+find / -xdev -iname "*dhcp*" > ~/c1/find-matches.txt 2> ~/c1/find-matches-errors.txt
+find / -xdev -iname "*dhcp*" 2>/dev/null | grep -i --color=always dhcp > ~/c1/find-highlight-dhcp.txt
+find / -xdev -iname "*dhcp*" 2>/dev/null | grep -i --color=always etc > ~/c1/find-highlight-etc.txt
+cd ~/c1
+ping -4 -c 3 -W 2 google.com | tee ping-google.txt
+ls -l > files-long.txt
+cd /bin
+ls > ~/c1/bin-list.txt
+echo "$PATH" > ~/c1/path-again.txt
+set > ~/c1/shell-variables-private.txt
+whoami | tee ~/c1/user.txt
+cd /etc
+ls > ~/c1/etc-list.txt
+cd ..
+cd lib
+ls > ~/c1/lib-list.txt
+cd ~/c1
+dmesg 2>&1 | tee dmesg-denied.txt
+sudo dmesg > dmesg-before-clear.txt
+ls /dev > devices.txt
+sudo dmesg -C
+sudo timeout 3s dmesg --follow-new > usb-monitor.txt
+lsblk -o NAME,TRAN,SIZE,MOUNTPOINTS | tee storage.txt
+df -h | tee filesystems.txt
+cd /home
+ls -l > ~/c1/homes.txt
+lsmod > ~/c1/modules.txt
+cd /proc
+cat cpuinfo > ~/c1/cpuinfo.txt
+(echo 1 > /proc/sys/net/ipv4/ip_forward) 2>&1 | tee ~/c1/forward-write-denied.txt
+(sudo echo 1 > /proc/sys/net/ipv4/ip_forward) 2>&1 | tee ~/c1/sudo-redirection-denied.txt
+sudo su
+cd ~
+cd c1
+echo vika > 1.txt
+cat 1.txt
+echo vasya > 2.txt
+cat 2.txt
+diff 1.txt 2.txt | tee file-difference.txt
+history > history-display.txt
+lspci | tee pci.txt
+date -Is
+history -w history.txt
+stat -c "%n %s bytes" history.txt
+history -w history-final.txt
+xdg-open /media/"$USER" 2>&1 | tee flash-open.txt
+date -Is
+history -w history.txt
+stat -c "%n %s bytes" history.txt
+history -w history-final.txt
