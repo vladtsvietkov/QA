@@ -1,0 +1,5 @@
+PING 10.32.23.20 (10.32.23.20) 56(84) bytes of data.
+
+--- 10.32.23.20 ping statistics ---
+2 packets transmitted, 0 received, 100% packet loss, time 1018ms
+

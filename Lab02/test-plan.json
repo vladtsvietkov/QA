@@ -1,0 +1,8 @@
+{
+  "id": "TP-C2",
+  "variant": 2,
+  "calculation": "3223 last23;23mod3=2",
+  "scope": "Own direct veth LAN, dynamic baseline and static neighbors on both directions, wrong-MAC diagnosis",
+  "acceptance": "MAC/IP/neighbor/PCAP and ping agree across all phases",
+  "limits": "Short three-probe series; ARP absence asserted only for captured series with both endpoints permanent"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "DR-C2-MAC",
+  "title": "Permanent neighbor maps correct IPv4 to wrong MAC",
+  "severity": "High for this peer reachability",
+  "precondition": "Healthy static baseline; no IP/link/right-neighbor changes",
+  "steps": [
+    "Replace left neighbor lladdr with02:32:23:02:ff:20",
+    "Ping.20 twice and capture"
+  ],
+  "expected": "Healthy map permits replies",
+  "actual": "Two requests reach wrong Ethernet destination,0/2,no ARP or Echo Reply",
+  "cause": "Incorrect explicit layer2 next-hop mapping",
+  "fix": "Replace only lladdr with02:32:23:02:00:20",
+  "retest": "3/3,6frames,ID21f9",
+  "status": "Fixed and retested"
+}

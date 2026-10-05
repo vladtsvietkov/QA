@@ -1,0 +1,1 @@
+10.32.23.20 dev lan0 lladdr 02:32:23:02:00:20 PERMANENT 

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "C2-01",
+    "precondition": "Both lan0UP, same/24, empty neighbor caches",
+    "steps": "Ping.20 three times while capturing",
+    "expected": "ARP request/reply then six ICMP frames; right MAC learned",
+    "actual": "8frames, ID217b; REACHABLE;3/3 avg.053ms",
+    "evidence": [
+      "arp-dynamic.pcap",
+      "neighbor-dynamic.txt",
+      "ping-dynamic.txt"
+    ]
+  },
+  {
+    "id": "C2-02",
+    "precondition": "Positive dynamic baseline",
+    "steps": "Install both correct PERMANENT neighbors, ping, read neighbor again",
+    "expected": "Correct Ethernet destination, no ARP needed in series",
+    "actual": "6ICMP, ID21ce;PERMANENT;3/3 avg.047ms",
+    "evidence": [
+      "arp-static.pcap",
+      "neighbor-permanent.txt",
+      "neighbor-right-permanent.txt",
+      "neighbor-after-static.txt",
+      "ping-static.txt"
+    ]
+  },
+  {
+    "id": "C2-03",
+    "precondition": "Both permanent and healthy",
+    "steps": "Change only left lladdr to02:32:23:02:ff:20; ping twice and capture",
+    "expected": "Wrong link destination causes no reply; IPv4 unchanged",
+    "actual": "2EchoRequests ID21e5 to wrong EthernetMAC;0/2;PERMANENT",
+    "evidence": [
+      "wrong-static.pcap",
+      "neighbor-wrong.txt",
+      "ping-wrong-static.txt"
+    ]
+  },
+  {
+    "id": "C2-04",
+    "precondition": "Reproduced wrong-MAC fault",
+    "steps": "Restore right MAC, ping and capture",
+    "expected": "Correct destination and replies restored",
+    "actual": "6frames ID21f9;3/3 avg.036ms",
+    "evidence": [
+      "static-repaired.pcap",
+      "ping-repaired.txt",
+      "neighbor-repaired.txt"
+    ]
+  }
+]
