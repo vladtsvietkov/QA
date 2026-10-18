@@ -1,0 +1,18 @@
+{
+  "id": "DR-C3-POOL",
+  "title": "No dynamic allocation without range",
+  "severity": "High",
+  "precondition": "Same subnet, clean client, no static lease fallback",
+  "steps": [
+    "Delete only range",
+    "Syntax test",
+    "Start daemon with empty leases",
+    "Client14s with full capture"
+  ],
+  "expected": "Healthy config gives Offer/ACK and address",
+  "actual": "Parser0,daemonactive;3Discover/noOffer,noFreeLeases,timeout124,noaddress/default",
+  "cause": "Subnet has no dynamic pool for a new lease",
+  "fix": "Restore exact range line and acquire new lease",
+  "retest": "DORA XID3cb59f76,all options and lease720 correct",
+  "status": "Fixed and retested"
+}

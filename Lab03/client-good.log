@@ -1,0 +1,15 @@
+Internet Systems Consortium DHCP Client 4.4.3-P1
+Copyright 2004-2022 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/lan0/02:32:23:03:00:50
+Sending on   LPF/lan0/02:32:23:03:00:50
+Sending on   Socket/fallback
+xid: warning: no netdev with useable HWADDR found for seed's uniqueness enforcement
+xid: rand init seed (0x6a9ef03a) built using gethostid
+DHCPDISCOVER on lan0 to 255.255.255.255 port 67 interval 3 (xid=0xcda79264)
+DHCPOFFER of 10.32.23.50 from 10.32.23.1
+DHCPREQUEST for 10.32.23.50 on lan0 to 255.255.255.255 port 67 (xid=0x6492a7cd)
+DHCPACK of 10.32.23.50 from 10.32.23.1 (xid=0xcda79264)
+bound to 10.32.23.50 -- renewal in 296 seconds.

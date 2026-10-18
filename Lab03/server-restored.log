@@ -1,0 +1,16 @@
+Internet Systems Consortium DHCP Server 4.4.3-P1
+Copyright 2004-2022 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+Config file: /etc/dhcp/t3.conf
+Database file: /var/lib/dhcp/dhcpd.leases.t3-restored
+PID file: /run/dhcpd.pid
+Wrote 0 leases to leases file.
+Listening on LPF/lan0/92:db:5b:47:f6:25/10.32.23.0/24
+Sending on   LPF/lan0/92:db:5b:47:f6:25/10.32.23.0/24
+Sending on   Socket/fallback/fallback-net
+Server starting service.
+DHCPDISCOVER from 02:32:23:03:00:50 via lan0
+DHCPOFFER on 10.32.23.50 to 02:32:23:03:00:50 (Ubuntu24) via lan0
+DHCPREQUEST for 10.32.23.50 (10.32.23.1) from 02:32:23:03:00:50 (Ubuntu24) via lan0
+DHCPACK on 10.32.23.50 to 02:32:23:03:00:50 (Ubuntu24) via lan0

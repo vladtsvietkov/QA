@@ -1,0 +1,77 @@
+[
+  {
+    "id": "C3-01",
+    "precondition": "Good config/new lease files",
+    "steps": "dhcpd-t,start own server/client,capture",
+    "expected": "DORA and pool address",
+    "actual": "4frames XIDcda79264,.50/24",
+    "evidence": [
+      "dhcp-good.pcap",
+      "config-good-test.txt",
+      "address-good.txt"
+    ]
+  },
+  {
+    "id": "C3-02",
+    "precondition": "Good ACK received",
+    "steps": "Read ACK/options/interface/default route/leases",
+    "expected": "/24,router.1,DNS1.1.1.1,720s and expectedMAC",
+    "actual": "All values agree",
+    "evidence": [
+      "dhcp-good.pcap",
+      "route-good.txt",
+      "server-leases-good.txt"
+    ]
+  },
+  {
+    "id": "C3-03",
+    "precondition": "Positive baseline",
+    "steps": "Remove only range; new lease files;dhcpd-t and daemon",
+    "expected": "Record syntax and daemon status separately",
+    "actual": "-t exit0,daemon9304 running; allocation not assumed",
+    "evidence": [
+      "pool-removal.diff",
+      "config-no-pool-test.txt",
+      "server-running-no-pool.txt"
+    ]
+  },
+  {
+    "id": "C3-04",
+    "precondition": "No range; clean client",
+    "steps": "Capture complete14s dhclient attempt; read logs/IP/route",
+    "expected": "No allocation, no Offer; reason in server log",
+    "actual": "3Discover XIDfc276f18 at0/4.421155/11.515843s;noFreeLeases;exit124;noIPv4/default",
+    "evidence": [
+      "no-pool-complete.pcap",
+      "client-repeat-exit.txt",
+      "client-no-pool-repeat.log",
+      "address-no-pool.txt",
+      "route-no-pool.txt",
+      "server-no-pool.log"
+    ]
+  },
+  {
+    "id": "C3-05",
+    "precondition": "Reproduced pool fault",
+    "steps": "Restore range,restart own server,fresh client/capture",
+    "expected": "DORA and parameters recovered",
+    "actual": "4frames XID3cb59f76,.50/24,router.1,DNS1.1.1.1,lease720",
+    "evidence": [
+      "dhcp-restored.pcap",
+      "address-restored.txt",
+      "route-restored.txt",
+      "server-leases-restored.txt"
+    ]
+  },
+  {
+    "id": "C3-06",
+    "precondition": "Available VM uplink",
+    "steps": "dig@1.1.1.1 example.net A with capture",
+    "expected": "Query and response from chosen resolver",
+    "actual": "2frames IDbef3,NOERROR16ms,A104.20.21.8/172.66.175.59",
+    "evidence": [
+      "dns-resolver.pcap",
+      "dns-resolver.txt"
+    ]
+  }
+]

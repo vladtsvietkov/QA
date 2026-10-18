@@ -1,0 +1,72 @@
+cd ~/c3
+sudo ip netns add t3-server
+sudo ip netns add t3-client
+sudo ip link add t3-s type veth peer name t3-c
+sudo ip link set t3-s netns t3-server
+sudo ip link set t3-c netns t3-client
+sudo ip -n t3-server link set t3-s name lan0
+sudo ip -n t3-client link set t3-c name lan0
+sudo ip -n t3-client link set lan0 address 02:32:23:03:00:50
+sudo ip -n t3-server address add 10.32.23.1/24 dev lan0
+sudo ip -n t3-server link set lo up
+sudo ip -n t3-server link set lan0 up
+sudo ip -n t3-client link set lo up
+sudo ip -n t3-client link set lan0 up
+sudo install -m 644 dhcpd-good.conf /etc/dhcp/t3.conf
+sudo install -m 755 lease-hook.sh /etc/dhcp/dhclient-script
+sudo touch /var/lib/dhcp/dhcpd.leases.t3 /var/lib/dhcp/dhclient.t3-good.leases
+sudo dhcpd -t -cf /etc/dhcp/t3.conf 2>&1 | tee config-good-test.txt
+sudo ip netns exec t3-server dhcpd -4 -f -d -cf /etc/dhcp/t3.conf -lf /var/lib/dhcp/dhcpd.leases.t3 -pf /run/dhcpd.pid lan0 > server-good.log 2>&1 &
+sudo ip netns exec t3-server timeout -s INT 18s tcpdump -U -c 4 -i lan0 -w dhcp-good.pcap udp port 67 or port 68 > capture-good.log 2>&1 &
+sudo ip netns exec t3-client dhclient -4 -1 -v -sf /etc/dhcp/dhclient-script -lf /var/lib/dhcp/dhclient.t3-good.leases -pf /run/dhclient-t3.pid lan0 > client-good.log 2>&1
+sudo ip -n t3-client -br address | tee address-good.txt
+sudo ip -n t3-client route | tee route-good.txt
+sudo cat /var/lib/dhcp/dhcpd.leases.t3 > server-leases-good.txt
+sudo cat /run/dhclient-t3.pid | tee client-good.pid
+sudo kill -TERM 9208 9142
+diff -u dhcpd-good.conf dhcpd-no-pool.conf | tee pool-removal.diff
+sudo install -m 644 dhcpd-no-pool.conf /etc/dhcp/t3.conf
+sudo touch /var/lib/dhcp/dhcpd.leases.t3-bad /var/lib/dhcp/dhclient.t3-bad.leases
+sudo dhcpd -t -cf /etc/dhcp/t3.conf 2>&1 | tee config-no-pool-test.txt
+sudo ip -n t3-client address flush dev lan0 scope global
+sudo ip netns exec t3-server dhcpd -4 -f -d -cf /etc/dhcp/t3.conf -lf /var/lib/dhcp/dhcpd.leases.t3-bad -pf /run/dhcpd.pid lan0 > server-no-pool.log 2>&1 &
+sudo ip netns exec t3-server timeout -s INT 18s tcpdump -U -i lan0 -w dhcp-no-pool.pcap udp port 67 or port 68 > capture-no-pool.log 2>&1 &
+sudo ip netns exec t3-client timeout -s TERM 14s dhclient -4 -d -1 -v -sf /etc/dhcp/dhclient-script -lf /var/lib/dhcp/dhclient.t3-bad.leases -pf /run/dhclient-t3-bad.pid lan0 > client-no-pool.log 2>&1
+echo $? | tee client-no-pool-exit.txt
+sudo ip -n t3-client -4 address | tee address-no-pool.txt
+sudo ip -n t3-client route | tee route-no-pool.txt
+ps -eo pid,user,args | grep "[d]hcpd -4" | tee server-running-no-pool.txt
+sudo ip netns exec t3-server timeout -s INT 40s tcpdump -U -i lan0 -w no-pool-complete.pcap udp port 67 or port 68 > no-pool-complete.log 2>&1 &
+sudo ip netns exec t3-client timeout -s TERM 14s dhclient -4 -d -1 -v -sf /etc/dhcp/dhclient-script -lf /var/lib/dhcp/dhclient.t3-bad.leases -pf /run/dhclient-t3-bad.pid lan0 > client-no-pool-repeat.log 2>&1
+echo $? | tee client-repeat-exit.txt
+sudo kill -INT 9400
+sudo dhcpd -t -cf /etc/dhcp/t3.conf
+echo $?
+ps -p 9304 -o pid,user,stat,args
+tail -n 3 server-no-pool.log
+cat client-repeat-exit.txt
+sudo ip -n t3-client -4 -br address
+sudo ip -n t3-client route
+cat no-pool-complete.log
+sudo kill -TERM 9304
+sudo install -m 644 dhcpd-good.conf /etc/dhcp/t3.conf
+sudo touch /var/lib/dhcp/dhcpd.leases.t3-restored /var/lib/dhcp/dhclient.t3-restored.leases
+sudo ip netns exec t3-server dhcpd -4 -f -d -cf /etc/dhcp/t3.conf -lf /var/lib/dhcp/dhcpd.leases.t3-restored -pf /run/dhcpd.pid lan0 > server-restored.log 2>&1 &
+sudo ip netns exec t3-server timeout -s INT 25s tcpdump -U -c 4 -i lan0 -w dhcp-restored.pcap udp port 67 or port 68 > capture-restored.log 2>&1 &
+sudo ip netns exec t3-client dhclient -4 -1 -v -sf /etc/dhcp/dhclient-script -lf /var/lib/dhcp/dhclient.t3-restored.leases -pf /run/dhclient-t3.pid lan0 > client-restored.log 2>&1
+sudo ip -n t3-client -br address | tee address-restored.txt
+sudo ip -n t3-client route | tee route-restored.txt
+sudo cat /var/lib/dhcp/dhcpd.leases.t3-restored > server-leases-restored.txt
+sudo cat /run/dhclient-t3.pid | tee client-restored.pid
+sudo timeout -s INT 15s tcpdump -U -c 2 -i enp0s3 -w dns-resolver.pcap udp port 53 and host 1.1.1.1 > capture-dns.log 2>&1 &
+dig @1.1.1.1 example.net A +tries=1 +time=2 | tee dns-resolver.txt
+cat client-restored.log
+sudo ip -n t3-client -4 -br address
+sudo ip -n t3-client route
+cat server-leases-restored.txt
+history -w history-c3.txt
+sudo cat /var/lib/dhcp/dhclient.t3-restored.leases > client-leases-restored.txt
+sudo kill -TERM 9506 9498
+sudo rm /etc/dhcp/dhclient-script /etc/dhcp/t3.conf
+history -w history-c3-before-gui.txt
+history -w history-c3-final.txt

@@ -1,0 +1,3 @@
+   9302 root     sudo ip netns exec t3-server dhcpd -4 -f -d -cf /etc/dhcp/t3.conf -lf /var/lib/dhcp/dhcpd.leases.t3-bad -pf /run/dhcpd.pid lan0
+   9303 root     sudo ip netns exec t3-server dhcpd -4 -f -d -cf /etc/dhcp/t3.conf -lf /var/lib/dhcp/dhcpd.leases.t3-bad -pf /run/dhcpd.pid lan0
+   9304 root     dhcpd -4 -f -d -cf /etc/dhcp/t3.conf -lf /var/lib/dhcp/dhcpd.leases.t3-bad -pf /run/dhcpd.pid lan0

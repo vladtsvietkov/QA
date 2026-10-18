@@ -1,0 +1,10 @@
+--- dhcpd-good.conf	2026-10-28 12:36:04.332819840 +0000
++++ dhcpd-no-pool.conf	2026-10-28 12:36:04.346812840 +0000
+@@ -2,7 +2,6 @@
+ default-lease-time 720;
+ max-lease-time 1440;
+ subnet 10.32.23.0 netmask 255.255.255.0 {
+-  range 10.32.23.50 10.32.23.55;
+   option subnet-mask 255.255.255.0;
+   option broadcast-address 10.32.23.255;
+   option routers 10.32.23.1;

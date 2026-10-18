@@ -1,0 +1,14 @@
+lease {
+  interface "lan0";
+  fixed-address 10.32.23.50;
+  option subnet-mask 255.255.255.0;
+  option routers 10.32.23.1;
+  option dhcp-lease-time 720;
+  option dhcp-message-type 5;
+  option domain-name-servers 1.1.1.1;
+  option dhcp-server-identifier 10.32.23.1;
+  option broadcast-address 10.32.23.255;
+  renew 3 2026/10/28 13:06:49;
+  rebind 3 2026/10/28 13:12:01;
+  expire 3 2026/10/28 13:13:31;
+}

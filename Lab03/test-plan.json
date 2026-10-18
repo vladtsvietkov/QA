@@ -1,0 +1,15 @@
+{
+  "id": "TP-C3",
+  "variant": 2,
+  "scope": "DHCP allocation without a range; distinguish parser/process/function",
+  "preconditions": [
+    "Own isolated t3-server/client",
+    "Empty independent server/client lease files per phase",
+    "Client previous address flushed; no static reservation"
+  ],
+  "acceptance": "Good and restored DORA; missing pool produces no allocation despite active daemon; DNS independently verified on VM uplink",
+  "limitations": [
+    "First short negative capture is partial; complete repeated14s attempt used for conclusion",
+    "DNS test is VM uplink, not connectivity from isolated DHCP LAN"
+  ]
+}
