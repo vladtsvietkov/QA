@@ -1,0 +1,1 @@
+10.32.24.1 dev net0 lladdr c2:a6:c1:d8:dc:9b REACHABLE 

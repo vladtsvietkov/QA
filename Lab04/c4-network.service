@@ -1,0 +1,10 @@
+[Unit]
+Description=Routed IPv4 test with declarative interface and firewall files
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/c4-topology.sh
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,19 @@
+{
+  "id": "DR-C4-RETURN",
+  "title": "First FORWARD rule drops return Echo Reply to client",
+  "severity": "Medium for ICMP diagnostics",
+  "precondition": "Client numeric baseline3/3 and functional NAT",
+  "steps": [
+    "Insert exact first ICMP echo-reply DROP for10.32.24.60",
+    "Zero only this counter",
+    "Run paired full capture and three client ping",
+    "Read counter; then independent controls"
+  ],
+  "expected": "Healthy configuration returns3/3",
+  "actual": "Inside3 requests/no replies; uplink3 requests+3 replies; ID2b68 seq1-3; DROP3/252;client0/3",
+  "cause": "Return ICMP dropped by FORWARD rule order, despite functioning NAT",
+  "controls": "Client gateway3/3, router uplink3/3, client DNS NOERROR14ms",
+  "fix": "Delete exact inserted rule; retain both original allows",
+  "retest": "Client3/3 avg14.403ms; DNS14ms; after real reboot3/3 avg14.226ms",
+  "status": "Fixed and retested"
+}

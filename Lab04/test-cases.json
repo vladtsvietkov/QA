@@ -1,0 +1,114 @@
+[
+  {
+    "id": "C4-01",
+    "precondition": "New own topology",
+    "steps": "Read interfaces, routes, forwarding, filter and NAT",
+    "expected": "LAN and /30 routes consistent; both forwarding=1",
+    "actual": "Topology correct; service active/exit0",
+    "evidence": [
+      "edge-address.txt",
+      "node-address-initial.txt",
+      "edge-route.txt",
+      "node-route.txt",
+      "edge-forwarding.txt",
+      "host-forwarding.txt",
+      "edge-running.rules",
+      "service-initial.txt"
+    ]
+  },
+  {
+    "id": "C4-02",
+    "precondition": "Client address flushed; own DHCP running",
+    "steps": "Acquire lease, capture and compare ACK, leases, interface and route",
+    "expected": ".60/24, router .1, DNS 1.1.1.1, lease 540s",
+    "actual": "4 DORA frames; XID9f7e5208; parameters applied",
+    "evidence": [
+      "dhcp.pcap",
+      "server-leases.txt",
+      "client-leases.txt",
+      "node-address-dhcp.txt",
+      "node-route.txt"
+    ]
+  },
+  {
+    "id": "C4-03",
+    "precondition": "Correct routes and acquired parameters",
+    "steps": "ARP, both local ping directions, router google.com and client DNS",
+    "expected": "Independent LAN/router uplink/DNS success",
+    "actual": "ARP request/reply; all ping 3/3; DNS NOERROR15ms",
+    "evidence": [
+      "local-arp.pcap",
+      "local-node.txt",
+      "local-edge.txt",
+      "edge-google.txt",
+      "node-dns.txt"
+    ]
+  },
+  {
+    "id": "C4-04",
+    "precondition": "Positive controls",
+    "steps": "Capture inside/uplink simultaneously; client google.com; compare ID/seq/address/TTL",
+    "expected": "Source translated; ID/seq retained; TTL decreases one",
+    "actual": "6+6 frames; ID2ab3 seq1-3;3/3 avg15.039ms",
+    "evidence": [
+      "nat-inside.pcap",
+      "nat-uplink.pcap",
+      "node-google.txt"
+    ]
+  },
+  {
+    "id": "C4-05",
+    "precondition": "Numeric ping1.1.1.1 succeeds3/3",
+    "steps": "Insert exact first return-ICMP DROP; reset its counter; repeat full pair and client ping",
+    "expected": "Diagnose replies lost in FORWARD",
+    "actual": "Inside3 requests/uplink6 frames; ID2b68; DROP3 packets/252bytes;0/3",
+    "evidence": [
+      "node-numeric-before.txt",
+      "fault-inside-complete.pcap",
+      "fault-uplink-complete.pcap",
+      "fault-node-repeat.txt",
+      "fault-repeat-counters.txt"
+    ]
+  },
+  {
+    "id": "C4-06",
+    "precondition": "DROP still active; paired capture finished",
+    "steps": "Client gateway ping, router numeric ping and client DNS",
+    "expected": "Localize fault to return ICMP",
+    "actual": "Both ping3/3; DNS NOERROR14ms",
+    "evidence": [
+      "fault-local-control.txt",
+      "fault-edge-control.txt",
+      "fault-dns-control.txt"
+    ]
+  },
+  {
+    "id": "C4-07",
+    "precondition": "Fault reproduced",
+    "steps": "Delete only exact DROP; repeat client ping/DNS",
+    "expected": "Original policy and connectivity restored",
+    "actual": "Two original allows; ping3/3 avg14.403ms; DNS NOERROR14ms",
+    "evidence": [
+      "filter-repaired.txt",
+      "ping-repaired.txt",
+      "dns-repaired.txt"
+    ]
+  },
+  {
+    "id": "C4-08",
+    "precondition": "Healthy enabled service; real reboot",
+    "steps": "Read service/routes/filter/NAT before manual network changes and ping",
+    "expected": "Automatic restoration",
+    "actual": "active/exited exit0 at10.066344s; ping3/3 avg14.226ms",
+    "evidence": [
+      "service-after-reboot.txt",
+      "node-address-after-reboot.txt",
+      "node-route-after-reboot.txt",
+      "edge-route-after-reboot.txt",
+      "forwarding-after-reboot.txt",
+      "edge-after-reboot.rules",
+      "host-nat-after-reboot.txt",
+      "ping-after-reboot.txt"
+    ]
+  }
+]

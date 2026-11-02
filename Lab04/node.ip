@@ -1,0 +1,5 @@
+link set lo up
+link set net0 address 02:32:23:04:00:60
+link set net0 up
+address replace 10.32.24.60/24 dev net0
+route replace default via 10.32.24.1

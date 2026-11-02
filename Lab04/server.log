@@ -1,0 +1,16 @@
+Internet Systems Consortium DHCP Server 4.4.3-P1
+Copyright 2004-2022 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+Config file: /etc/dhcp/c4.conf
+Database file: /var/lib/dhcp/dhcpd.leases.c4
+PID file: /run/dhcpd.pid
+Wrote 0 leases to leases file.
+Listening on LPF/inside/c2:a6:c1:d8:dc:9b/10.32.24.0/24
+Sending on   LPF/inside/c2:a6:c1:d8:dc:9b/10.32.24.0/24
+Sending on   Socket/fallback/fallback-net
+Server starting service.
+DHCPDISCOVER from 02:32:23:04:00:60 via inside
+DHCPOFFER on 10.32.24.60 to 02:32:23:04:00:60 (Ubuntu24) via inside
+DHCPREQUEST for 10.32.24.60 (10.32.24.1) from 02:32:23:04:00:60 (Ubuntu24) via inside
+DHCPACK on 10.32.24.60 to 02:32:23:04:00:60 (Ubuntu24) via inside

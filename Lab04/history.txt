@@ -1,0 +1,83 @@
+cd ~/c4
+sudo iptables -S > host-filter-before.txt
+sudo iptables -t nat -S > host-nat-before.txt
+sudo mkdir -p /etc/c4-network /etc/netns/c4-node /etc/netns/c4-edge
+sudo install -m 644 edge.ip node.ip edge.rules /etc/c4-network/
+sudo install -m 755 c4-topology.sh /usr/local/sbin/c4-topology.sh
+sudo install -m 644 c4-network.service /etc/systemd/system/c4-network.service
+sudo cp resolv.conf /etc/netns/c4-node/resolv.conf
+sudo cp resolv.conf /etc/netns/c4-edge/resolv.conf
+sudo systemctl daemon-reload
+sudo systemctl enable --now c4-network.service
+systemctl show c4-network.service -p ActiveState -p SubState -p ExecMainStatus | tee service-initial.txt
+sudo ip -n c4-edge -br address | tee edge-address.txt
+sudo ip -n c4-node -br address | tee node-address-initial.txt
+sudo ip -n c4-edge route | tee edge-route.txt
+sudo ip netns exec c4-edge iptables-save > edge-running.rules
+sudo sysctl net.ipv4.ip_forward | tee host-forwarding.txt
+sudo ip netns exec c4-edge sysctl net.ipv4.ip_forward | tee edge-forwarding.txt
+sudo install -m 644 dhcpd.conf /etc/dhcp/c4.conf
+sudo install -m 755 lease-hook.sh /etc/dhcp/dhclient-script
+sudo touch /var/lib/dhcp/dhcpd.leases.c4 /var/lib/dhcp/dhclient.c4.leases
+sudo ip netns exec c4-edge dhcpd -4 -f -d -cf /etc/dhcp/c4.conf -lf /var/lib/dhcp/dhcpd.leases.c4 -pf /run/dhcpd.pid inside > server.log 2>&1 &
+sudo ip -n c4-node address flush dev net0 scope global
+sudo ip netns exec c4-edge timeout -s INT 25s tcpdump -U -c 4 -i inside -w dhcp.pcap udp port 67 or port 68 > dhcp-capture.log 2>&1 &
+sudo ip netns exec c4-node dhclient -4 -1 -v -sf /etc/dhcp/dhclient-script -lf /var/lib/dhcp/dhclient.c4.leases -pf /run/dhclient-c4.pid net0 > client.log 2>&1
+sudo ip -n c4-node -br address | tee node-address-dhcp.txt
+sudo ip -n c4-node route | tee node-route.txt
+sudo cat /run/dhclient-c4.pid | tee client.pid
+sudo cat /var/lib/dhcp/dhcpd.leases.c4 > server-leases.txt
+sudo cat /var/lib/dhcp/dhclient.c4.leases > client-leases.txt
+sudo kill -TERM 10724 10713
+sudo rm /etc/dhcp/dhclient-script /etc/dhcp/c4.conf
+sudo ip -n c4-node neigh flush dev net0
+sudo ip -n c4-edge neigh flush dev inside
+sudo ip netns exec c4-edge timeout -s INT 20s tcpdump -U -c 2 -i inside -w local-arp.pcap arp > local-arp.log 2>&1 &
+sudo ip netns exec c4-node ping -c 3 -W 1 10.32.24.1 | tee local-node.txt
+sudo ip netns exec c4-edge ping -c 3 -W 1 10.32.24.60 | tee local-edge.txt
+sudo ip netns exec c4-edge ping -4 -c 3 -W 2 google.com | tee edge-google.txt
+sudo ip netns exec c4-node dig google.com A +tries=1 +time=2 | tee node-dns.txt
+sudo ip -n c4-node neigh | tee node-neighbor.txt
+sudo ip netns exec c4-edge timeout -s INT 30s tcpdump -U -c 6 -i inside -w nat-inside.pcap icmp > nat-inside.log 2>&1 &
+sudo ip netns exec c4-edge timeout -s INT 30s tcpdump -U -c 6 -i uplink -w nat-uplink.pcap icmp > nat-uplink.log 2>&1 &
+sudo ip netns exec c4-node ping -4 -c 3 -W 2 google.com | tee node-google.txt
+sudo ip netns exec c4-node ping -c 3 -W 2 1.1.1.1 | tee node-numeric-before.txt
+sudo ip netns exec c4-edge iptables -I FORWARD 1 -i uplink -o inside -d 10.32.24.60/32 -p icmp --icmp-type echo-reply -j DROP
+sudo ip netns exec c4-edge timeout -s INT 25s tcpdump -U -c 6 -i uplink -w fault-uplink.pcap icmp and host 1.1.1.1 > fault-uplink.log 2>&1 &
+sudo ip netns exec c4-node ping -c 3 -W 2 1.1.1.1 | tee fault-node-ping.txt
+sudo ip netns exec c4-edge iptables -L FORWARD -nvx --line-numbers | tee fault-counters.txt
+sudo ip netns exec c4-edge iptables-save > edge-fault.rules
+sudo ip netns exec c4-edge iptables -Z FORWARD 1
+sudo ip netns exec c4-edge timeout -s INT 30s tcpdump -U -c 3 -i inside -w fault-inside-complete.pcap icmp and host 1.1.1.1 > fault-inside-complete.log 2>&1 &
+sudo ip netns exec c4-edge timeout -s INT 30s tcpdump -U -c 6 -i uplink -w fault-uplink-complete.pcap icmp and host 1.1.1.1 > fault-uplink-complete.log 2>&1 &
+sudo ip netns exec c4-node ping -c 3 -W 2 1.1.1.1 | tee fault-node-repeat.txt
+sudo ip netns exec c4-edge iptables -L FORWARD -nvx --line-numbers | tee fault-repeat-counters.txt
+sudo ip netns exec c4-node ping -c 3 -W 1 10.32.24.1 | tee fault-local-control.txt
+sudo ip netns exec c4-edge ping -c 3 -W 2 1.1.1.1 | tee fault-edge-control.txt
+sudo ip netns exec c4-node dig google.com A +tries=1 +time=2 +noall +comments +stats | tee fault-dns-control.txt
+cat fault-node-repeat.txt
+cat fault-repeat-counters.txt
+cat fault-local-control.txt
+cat fault-edge-control.txt
+cat fault-dns-control.txt
+sudo ip netns exec c4-edge iptables -D FORWARD -i uplink -o inside -d 10.32.24.60/32 -p icmp --icmp-type echo-reply -j DROP
+sudo ip netns exec c4-edge iptables -L FORWARD -nvx --line-numbers | tee filter-repaired.txt
+sudo ip netns exec c4-node ping -c 3 -W 2 1.1.1.1 | tee ping-repaired.txt
+sudo ip netns exec c4-node dig google.com A +tries=1 +time=2 +noall +comments +stats | tee dns-repaired.txt
+systemctl is-enabled c4-network.service
+history -w history-before-gui.txt
+history -w history-before-reboot.txt
+history -w
+sudo reboot
+cd c4
+systemctl is-enabled c4-network.service
+systemctl show c4-network.service -p ActiveState -p SubState -p ExecMainStatus -p ActiveEnterTimestampMonotonic | tee service-after-reboot.txt
+sudo ip -n c4-node -4 -br address | tee node-address-after-reboot.txt
+sudo ip -n c4-node route | tee node-route-after-reboot.txt
+sudo ip -n c4-edge route | tee edge-route-after-reboot.txt
+sudo ip netns exec c4-edge sysctl net.ipv4.ip_forward | tee forwarding-after-reboot.txt
+sudo ip netns exec c4-edge iptables-save > edge-after-reboot.rules
+sudo iptables -t nat -S > host-nat-after-reboot.txt
+sudo ip netns exec c4-edge iptables -L FORWARD -nvx --line-numbers
+sudo ip netns exec c4-node ping -c 3 -W 2 1.1.1.1 | tee ping-after-reboot.txt
+history -w history-after-reboot.txt

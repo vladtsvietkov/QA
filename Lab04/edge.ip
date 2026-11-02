@@ -1,0 +1,6 @@
+link set lo up
+link set uplink up
+address replace 172.29.23.2/30 dev uplink
+link set inside up
+address replace 10.32.24.1/24 dev inside
+route replace default via 172.29.23.1

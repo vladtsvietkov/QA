@@ -1,0 +1,25 @@
+{
+  "id": "TP-C4",
+  "scope": "NAT with selective loss of return Echo Reply",
+  "preconditions": [
+    "Own c4-edge/c4-node routed topology",
+    "Separate /30 transit to VM",
+    "Positive DHCP, ARP, LAN, router uplink and DNS controls"
+  ],
+  "sequence": [
+    "Addressing/DHCP",
+    "ARP and local paths",
+    "Router/client Internet and DNS",
+    "Paired NAT captures",
+    "Selective return DROP",
+    "Independent controls",
+    "Exact-rule repair",
+    "Real reboot"
+  ],
+  "acceptance": "Paired ID/seq/IP/TTL plus rule counter explain fault; exact repair and automatic healthy restoration pass",
+  "limitations": [
+    "Uplink capture is private transit before an additional VM NAT; public IP translation not measured",
+    "Initial inside fault capture did not start; complete repeat used",
+    "DHCP daemon is temporary; client boot address restored statically"
+  ]
+}
